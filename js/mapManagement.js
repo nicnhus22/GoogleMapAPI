@@ -1,6 +1,8 @@
+// URL TO ADDRESS API: http://maps.google.com/maps/api/geocode/json?address=[address here]&sens.
+
 function initialize(){
 	// Create variable for London coordinates
-	var londonPos = new google.maps.LatLng(51.508742,-0.120850)
+	var londonPos = new google.maps.LatLng(45.21657099999999,5.799075999999999)
 
 	var mapProp = {
 	  center:londonPos,
