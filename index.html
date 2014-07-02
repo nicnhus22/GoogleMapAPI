@@ -10,7 +10,7 @@
 		var mapProp = {
 		  center:new google.maps.LatLng(51.508742,-0.120850),
 		  zoom:5,
-		  mapTypeId:google.maps.MapTypeId.ROADMAP
+		  mapTypeId:google.maps.MapTypeId.TERRAIN
 		  };
 		var map=new google.maps.Map(document.getElementById("googleMap")
 		  ,mapProp);
@@ -21,7 +21,7 @@
 </head>
 <body ng-app>
 
-	<div id="googleMap" style="width:500px;height:380px;"></div>
+	<div id="googleMap" style="width:1000px;height:500px;"></div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
 </body>
