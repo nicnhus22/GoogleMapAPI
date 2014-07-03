@@ -5,11 +5,32 @@
 	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 	<script src="js/cities.json"></script>
 	<script src="js/mapManagement.js"></script>
+
+	<!-- Sigma.js integration stuff -->
+	<style type="text/css">
+	  #container {
+	    max-width: 400px;
+	    height: 400px;
+	    margin: auto;
+	  }
+	</style>
+	</head>
 </head>
 <body ng-app>
 
 	<div id="googleMap" style="width:1000px;height:500px;"></div>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+	<div id="container"></div>
+	<script src="js/sigma.min.js"></script>
+	<script src="js/sigma.parsers.json.min.js"></script>
+	<script>
+	  sigma.parsers.json('js/data.json', {
+	    container: 'container',
+	    settings: {
+	      defaultNodeColor: '#ec5148'
+	    }
+	  });
+	</script>
+
 </body>
 </html>
