@@ -31,15 +31,16 @@ function addPoint(event) {
     });
     markers.push(marker);
 
-    addNode(marker.position.lng(), marker.position.lat());
+    addNode(marker, marker.position.lng(), marker.position.lat());
 
     google.maps.event.addListener(marker, 'click', function() {
         marker.setMap(null);
         for (var i = 0, I = markers.length; i < I && markers[i] != marker; ++i);
         markers.splice(i, 1);
+        removeNode(marker);
     });
     google.maps.event.addListener(marker, 'dragend', function() {
-        // By default works
+        moveNode(marker, marker.position.lng(), marker.position.lat());
     });
 }
 
