@@ -2,20 +2,10 @@
 <html>
 <head>
 	<title></title>
-	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-	<script src="js/data/cities.json"></script>
-	<script src="js/mapManagement.js"></script>
 	
+	<!-- Link basic css -->
+	<style type="text/css" src="css/style.css"></style>
 
-	<!-- Sigma.js integration stuff -->
-	<style type="text/css">
-	  #container {
-	    max-width: 1000px;
-	    height: 400px;
-	    margin: auto;
-	    border: 1px #000 solid;
-	  }
-	</style>
 	</head>
 </head>
 <body ng-app>
@@ -24,9 +14,13 @@
 
 	<div id="container"></div>
 
+	<!-- Load scripts for map management-->
+	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script src="js/mapManagement.js"></script>
+
+	<!-- Load scripts for sigma graph management-->
 	<script src="js/sigma/sigma.min.js"></script>
 	<script src="js/sigma/sigma.parsers.json.min.js"></script>
 	<script src="js/graphManagement.js"></script>
-
 </body>
 </html>
