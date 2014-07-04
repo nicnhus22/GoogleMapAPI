@@ -47,4 +47,17 @@ s = new sigma({
     ]
   });
 
+s.graph.addNode({
+  id: 'n3',
+  size: 1,
+  x: 40,
+  y: -10
+});
+
+s.graph.addEdge({
+  id: 'e3',
+  source: 'n3',
+  target: 'n0'
+});
+
   s.refresh();
