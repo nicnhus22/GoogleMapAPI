@@ -31,6 +31,8 @@ function addPoint(event) {
     });
     markers.push(marker);
 
+    addNode(marker.position.lng(), marker.position.lat());
+
     google.maps.event.addListener(marker, 'click', function() {
         marker.setMap(null);
         for (var i = 0, I = markers.length; i < I && markers[i] != marker; ++i);

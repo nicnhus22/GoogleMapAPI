@@ -1,3 +1,5 @@
+var numOfNodes = 0;
+
 // Create sigma container
 s = new sigma({
   renderer: {
@@ -12,12 +14,17 @@ s.graph.read({
   edges: [    ]
 });
 
-// s.graph.addNode({
-//   id: 'n3',
-//   size: 1,
-//   x: 40,
-//   y: -10
-// });
+function addNode(x, y){
+  s.graph.addNode({
+    id: 'n'+(--numOfNodes),
+    size: 1,
+    x: x+180,
+    y: ((-1)*y)+90
+  });
+
+  s.refresh();
+}
+
 
 // s.graph.addEdge({
 //   id: 'e3',
