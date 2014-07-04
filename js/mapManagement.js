@@ -1,32 +1,45 @@
 // URL TO ADDRESS API: http://maps.google.com/maps/api/geocode/json?address=[address here]&sens.
 
+var map;
+var markers = [];
+
+/*
+ *  Intialize map with proper options
+ */
 function initialize() {
+
   var mapOptions = {
-    zoom: 4,
-    center: new google.maps.LatLng(-25.363882, 131.044922)
-  }
-;
-  var map = new google.maps.Map(document.getElementById('googleMap'),
-      mapOptions);
+    zoom: 3,
+    center: new google.maps.LatLng(0, 0)
+  };
 
-  var marker = new google.maps.Marker({
-    position: map.getCenter(),
-    map: map,
-    title: 'Click to zoom'
-  });
+  map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
 
-  google.maps.event.addListener(map, 'center_changed', function() {
-    // 3 seconds after the center of the map has changed, pan back to the
-    // marker.
-    window.setTimeout(function() {
-      map.panTo(marker.getPosition());
-    }, 3000);
-  });
-
-  google.maps.event.addListener(marker, 'click', function() {
-    map.setZoom(8);
-    map.setCenter(marker.getPosition());
-  });
+  // Add listeners
+  google.maps.event.addListener(map, 'click', addPoint);
 }
 
+/*
+ *  @Event Add a marker to the map
+ */
+function addPoint(event) { 
+
+    var marker = new google.maps.Marker({
+        position: event.latLng,
+        map: map,
+        draggable: true
+    });
+    markers.push(marker);
+
+    google.maps.event.addListener(marker, 'click', function() {
+        marker.setMap(null);
+        for (var i = 0, I = markers.length; i < I && markers[i] != marker; ++i);
+        markers.splice(i, 1);
+    });
+    google.maps.event.addListener(marker, 'dragend', function() {
+        // By default works
+    });
+}
+
+// Load map on the page
 google.maps.event.addDomListener(window, 'load', initialize);
