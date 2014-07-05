@@ -34,10 +34,11 @@ function recreateGraph(){
  *  This is called whenever a marker is set on the map
  *  and adds a node on the graph
  */
-function addNode(marker, x, y){
+function addNode(name,marker, x, y){
   // Create node with good coordinates
   var node = {
     id: 'n'+(++numOfNodes),
+    label: name,
     size: 1,
     x: x+180,
     y: ((-1)*y)+90

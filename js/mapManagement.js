@@ -31,7 +31,11 @@ function addPoint(event) {
     });
     markers.push(marker);
 
-    addNode(marker, marker.position.lng(), marker.position.lat());
+    var name = prompt("Location name", "");
+    
+    if (name != null) {
+      addNode(name, marker, marker.position.lng(), marker.position.lat());
+    }
 
     google.maps.event.addListener(marker, 'click', function() {
         marker.setMap(null);
@@ -39,6 +43,7 @@ function addPoint(event) {
         markers.splice(i, 1);
         removeNode(marker);
     });
+
     google.maps.event.addListener(marker, 'dragend', function() {
         moveNode(marker, marker.position.lng(), marker.position.lat());
     });
