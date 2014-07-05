@@ -13,7 +13,7 @@ function initialize() {
     center: new google.maps.LatLng(0, 0)
   };
 
-  map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
+  map = new google.maps.Map(document.getElementById('map_container'), mapOptions);
 
   // Add listeners
   google.maps.event.addListener(map, 'click', addPoint);

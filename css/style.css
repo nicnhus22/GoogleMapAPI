@@ -1,6 +1,7 @@
-#container {
-	max-width: 1000px;
-	height: 400px;
-	margin: auto;
-	border: 1px #000 solid;
+#map_container {
+	height:500px;
+}
+
+#graph_container {
+	height:500px;
 }

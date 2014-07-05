@@ -4,7 +4,7 @@ var nodes = [];
 // Create sigma container
 s = new sigma({
   renderer: {
-    container: document.getElementById('container'),
+    container: document.getElementById('graph_container'),
     type: 'canvas'
   }
 });
