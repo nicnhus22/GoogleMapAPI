@@ -15,28 +15,58 @@ s.graph.read({
   edges: [    ]
 });
 
+/*
+ *  This clears the old graph and recreates one with the 
+ *  updated nodes[] array.
+ */
+function recreateGraph(){
+  // Clear old graph
+  s.graph.clear();
+  // Build new graph with updates nodes[]
+  nodes.forEach(function(node){
+    s.graph.addNode(node);
+  });
+  // Refresh graph to view changes
+  s.refresh();
+}
+
+/*
+ *  This is called whenever a marker is set on the map
+ *  and adds a node on the graph
+ */
 function addNode(marker, x, y){
+  // Create node with good coordinates
   var node = {
     id: 'n'+(++numOfNodes),
     size: 1,
     x: x+180,
     y: ((-1)*y)+90
   };
+
+  // Link the marker to the node
   node.marker = marker;
+
+  // Add node to the graph
   s.graph.addNode(node);
+
+  // Add node to the array
   nodes.push(node);
 
+  // Refresh graph to view changes
   s.refresh();
 }
 
+/*
+ *  This is called whenever a marker is removed. It removes
+ *  the node from the nodes[] array and rebuilds the graph.
+ */
 function removeNode(marker){
-  s.graph.nodes().forEach(function(node){
+  nodes.forEach(function(node){
     if(node.marker == marker){
-      var idx = s.graph.nodes().indexOf(node);
-      if(idx >= 0){
-        s.graph.nodes().splice(idx,1);
-        s.refresh();
-      }
+      var i = nodes.indexOf(node);
+      nodes.splice(i,1);
+      // This will rebuild the graph without the newly deleted node
+      recreateGraph();
     }
   });
 }
@@ -44,15 +74,15 @@ function removeNode(marker){
 function moveNode(marker, x ,y){
   s.graph.nodes().forEach(function(node){
     if(node.marker == marker){
-
+      // Build coordinates
       var x = marker.position.lng();
       var y = marker.position.lat();
       x += 180;
       y = ((-1)*y)+90; 
-
+      // Change node coordinates with new ones
       node.x = x;
       node.y = y;
-
+      // Refresh graph to view changes
       s.refresh();
     }
   });
