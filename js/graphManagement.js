@@ -30,23 +30,30 @@ function addNode(marker, x, y){
 }
 
 function removeNode(marker){
-  nodes.forEach(function(node){
+  s.graph.nodes().forEach(function(node){
     if(node.marker == marker){
-      // Need to handle event
+      var idx = s.graph.nodes().indexOf(node);
+      if(idx >= 0){
+        s.graph.nodes().splice(idx,1);
+        s.refresh();
+      }
     }
   });
 }
 
 function moveNode(marker, x ,y){
-  nodes.forEach(function(node){
+  s.graph.nodes().forEach(function(node){
     if(node.marker == marker){
+
       var x = marker.position.lng();
       var y = marker.position.lat();
       x += 180;
       y = ((-1)*y)+90; 
-      console.log(x+"   "+y);
+
       node.x = x;
       node.y = y;
+
+      s.refresh();
     }
   });
 }
