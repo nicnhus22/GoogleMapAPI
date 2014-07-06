@@ -24,29 +24,43 @@ function initialize() {
  */
 function addPoint(event) { 
 
-    var marker = new google.maps.Marker({
-        position: event.latLng,
+  var marker = _createMarker(map,{
+    "location":event.latLng,
+    "draggable":true
+  });
+
+  _addNode("HardCoded", marker, marker.position.lng(), marker.position.lat());
+}
+
+/*
+ *  Helper function that takes a map and options to
+ *  create a marker
+ *  Also add the event listeners for the created marker
+ */
+function _createMarker(map, options){
+
+  var marker = new google.maps.Marker({
+        position: options.location,
         map: map,
-        draggable: true
+        draggable: options.draggable
     });
-    markers.push(marker);
+  markers.push(marker);
 
-    var name = prompt("Location name", "");
-    
-    if (name != null) {
-      addNode(name, marker, marker.position.lng(), marker.position.lat());
-    }
+  // Add click event to delete the marker onClick
+  google.maps.event.addListener(marker, 'click', function() {
+      marker.setMap(null);
+      for (var i = 0, I = markers.length; i < I && markers[i] != marker; ++i);
+      markers.splice(i, 1);
+      _removeNode(marker);
+  });
 
-    google.maps.event.addListener(marker, 'click', function() {
-        marker.setMap(null);
-        for (var i = 0, I = markers.length; i < I && markers[i] != marker; ++i);
-        markers.splice(i, 1);
-        removeNode(marker);
-    });
+  // Add drag event to handle node update on drag
+  google.maps.event.addListener(marker, 'dragend', function() {
+      _moveNode(marker, marker.position.lng(), marker.position.lat());
+  });
 
-    google.maps.event.addListener(marker, 'dragend', function() {
-        moveNode(marker, marker.position.lng(), marker.position.lat());
-    });
+  return marker;
+
 }
 
 // Load map on the page

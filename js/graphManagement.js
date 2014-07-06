@@ -19,7 +19,7 @@ s.graph.read({
  *  This clears the old graph and recreates one with the 
  *  updated nodes[] array.
  */
-function recreateGraph(){
+function _recreateGraph(){
   // Clear old graph
   s.graph.clear();
   // Build new graph with updates nodes[]
@@ -34,7 +34,7 @@ function recreateGraph(){
  *  This is called whenever a marker is set on the map
  *  and adds a node on the graph
  */
-function addNode(name,marker, x, y){
+function _addNode(name,marker, x, y){
   // Create node with good coordinates
   var node = {
     id: 'n'+(++numOfNodes),
@@ -61,18 +61,18 @@ function addNode(name,marker, x, y){
  *  This is called whenever a marker is removed. It removes
  *  the node from the nodes[] array and rebuilds the graph.
  */
-function removeNode(marker){
+function _removeNode(marker){
   nodes.forEach(function(node){
     if(node.marker == marker){
       var i = nodes.indexOf(node);
       nodes.splice(i,1);
       // This will rebuild the graph without the newly deleted node
-      recreateGraph();
+      _recreateGraph();
     }
   });
 }
 
-function moveNode(marker, x ,y){
+function _moveNode(marker, x ,y){
   s.graph.nodes().forEach(function(node){
     if(node.marker == marker){
       // Build coordinates
