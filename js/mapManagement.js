@@ -53,10 +53,9 @@ function _createMarker(map, options){
       markers.splice(i, 1);
       _removeNode(marker);
   });
-
-  // Add drag event to handle node update on drag
-  google.maps.event.addListener(marker, 'dragend', function() {
-      _moveNode(marker, marker.position.lng(), marker.position.lat());
+  
+  google.maps.event.addListener(marker,'drag',function(event) {
+      _moveNode(marker, event.latLng.lng(), event.latLng.lat());
   });
 
   return marker;
