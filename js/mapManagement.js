@@ -65,11 +65,9 @@ function _createMarker(map, options){
   });
 
   google.maps.event.addListener(marker,'dragend',function(event) {
-      var updatedCountry;
-
-      updatedCountry = _getClosestCountry(marker, function(country){
+      _getClosestCountry(marker, function(country){
         if(country){
-          _moveNode(updatedCountry, marker, event.latLng.lng(), event.latLng.lat());
+          _moveNode(country, marker, event.latLng.lng(), event.latLng.lat());
         }else{
           _moveNode("Unknown", marker, event.latLng.lng(), event.latLng.lat());
         }
