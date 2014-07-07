@@ -118,7 +118,7 @@ function _getClosestCountry(marker, callback){
  */
 function _getCountryPopulation(country, callback){
   $.ajax({
-      url: "http://www.quandl.com/api/v1/datasets/WORLDBANK/"+countryCode[country]+"_SP_POP_TOTL.json",  
+      url: "http://www.quandl.com/api/v1/datasets/WORLDBANK/"+countryCode[country]+"_SP_POP_TOTL.json?auth_token=DcrswWQdrHB6kJWa8oZg",  
       dataType: 'json',
       success: function(data, textStatus, request) {
         // Return latest population data
