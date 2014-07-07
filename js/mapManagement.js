@@ -77,6 +77,7 @@ function _getClosestCountry(marker){
       success: function(data, textStatus, request) {
         if(data.results[0]){
           var country = _fetchCountry(data);
+          _getCountryPopulation(countryCode[country]);
         }
 
         if(country){
@@ -89,6 +90,9 @@ function _getClosestCountry(marker){
   });
 }
 
+function _getCountryPopulation(countryCode){
+  console.log(countryCode);
+}
 
 function _fetchCountry(data){
   var country;
