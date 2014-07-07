@@ -81,9 +81,9 @@ function _getClosestCountry(marker){
         }
 
         if(country){
-          _addNode(country, marker, marker.position.lng(), marker.position.lat());
+          _addNode(country, Math.floor((Math.random() * 10) + 1), marker, marker.position.lng(), marker.position.lat());
         }else{
-          _addNode("Unknown", marker, marker.position.lng(), marker.position.lat());
+          _addNode("Unknown", Math.floor((Math.random() * 10) + 1), marker, marker.position.lng(), marker.position.lat());
         }
         
       }
@@ -91,7 +91,17 @@ function _getClosestCountry(marker){
 }
 
 function _getCountryPopulation(countryCode){
-  console.log(countryCode);
+
+  // 
+
+  $.ajax({
+      url: "http://www.quandl.com/api/v1/datasets/WORLDBANK/"+countryCode+"_SP_POP_TOTL.json",  
+      dataType: 'json',
+      success: function(data, textStatus, request) {
+        console.log(data.data[0][1]);
+      }
+  });
+
 }
 
 function _fetchCountry(data){

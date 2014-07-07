@@ -15,6 +15,7 @@ s.graph.read({
   edges: [    ]
 });
 
+
 /*
  *  This clears the old graph and recreates one with the 
  *  updated nodes[] array.
@@ -34,12 +35,12 @@ function _recreateGraph(){
  *  This is called whenever a marker is set on the map
  *  and adds a node on the graph
  */
-function _addNode(name,marker, x, y){
+function _addNode(name, size, marker, x, y){
   // Create node with good coordinates
   var node = {
     id: 'n'+(++numOfNodes),
     label: name,
-    size: 1,
+    size: size,
     x: x+180,
     y: ((-1)*y)+90
   };
