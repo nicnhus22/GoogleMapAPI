@@ -75,10 +75,14 @@ function _getClosestCountry(marker){
       url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+marker.position.lat()+","+marker.position.lng()+"",  
       dataType: 'json',
       success: function(data, textStatus, request) {
-        var country = _fetchCountry(data);
+        if(data.results[0]){
+          var country = _fetchCountry(data);
+        }
 
         if(country){
           _addNode(country, marker, marker.position.lng(), marker.position.lat());
+        }else{
+          _addNode("Unknown", marker, marker.position.lng(), marker.position.lat());
         }
         
       }
