@@ -29,8 +29,13 @@ function addPoint(event) {
     "draggable":true
   });
 
- _getClosestCountry(marker);
-
+  var country = _getClosestCountry(marker, function(country){
+    if(country){
+      _addNode(country, Math.floor((Math.random() * 10) + 1), marker, marker.position.lng(), marker.position.lat());
+    }else{
+      _addNode("Unknown", Math.floor((Math.random() * 10) + 1), marker, marker.position.lng(), marker.position.lat());
+    }
+  });
 }
 
 /*
@@ -62,56 +67,58 @@ function _createMarker(map, options){
   google.maps.event.addListener(marker,'dragend',function(event) {
       var updatedCountry;
 
-      updatedCountry = _getClosestCountry(marker);
-
-      _moveNode(updatedCountry, marker, event.latLng.lng(), event.latLng.lat());
+      updatedCountry = _getClosestCountry(marker, function(country){
+        if(country){
+          _moveNode(updatedCountry, marker, event.latLng.lng(), event.latLng.lat());
+        }else{
+          _moveNode("Unknown", marker, event.latLng.lng(), event.latLng.lat());
+        }
+      });
   });
 
   return marker;
 }
 
-function _getClosestCountry(marker){
+/*
+ *  Returns the country that hosts the marker
+ *  Failure: Returns undefined.
+ */
+function _getClosestCountry(marker, callback){
   $.ajax({
       url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+marker.position.lat()+","+marker.position.lng()+"",  
       dataType: 'json',
       success: function(data, textStatus, request) {
         if(data.results[0]){
-          var country = _fetchCountry(data);
-          _getCountryPopulation(countryCode[country]);
-        }
 
-        if(country){
-          _addNode(country, Math.floor((Math.random() * 10) + 1), marker, marker.position.lng(), marker.position.lat());
-        }else{
-          _addNode("Unknown", Math.floor((Math.random() * 10) + 1), marker, marker.position.lng(), marker.position.lat());
+          var country;
+
+          data.results[0].address_components.forEach(function(addrComp){
+            if(addrComp.types[0] == 'country'){
+                country = addrComp.long_name;
+            }
+          });
+          callback(country);
+          // _getCountryPopulation(country);
         }
         
       }
   });
 }
 
-function _getCountryPopulation(countryCode){
-
-  // 
-
+/*
+ *  Returns the latest country population using the country code
+ *  Failure: Returns -1.
+ */
+function _getCountryPopulation(country){
   $.ajax({
-      url: "http://www.quandl.com/api/v1/datasets/WORLDBANK/"+countryCode+"_SP_POP_TOTL.json",  
+      url: "http://www.quandl.com/api/v1/datasets/WORLDBANK/"+countryCode[country]+"_SP_POP_TOTL.json",  
       dataType: 'json',
       success: function(data, textStatus, request) {
-        console.log(data.data[0][1]);
+        // Return latest population data
+        return data.data[0][1];
       }
   });
-
-}
-
-function _fetchCountry(data){
-  var country;
-  data.results[0].address_components.forEach(function(addrComp){
-    if(addrComp.types[0] == 'country'){
-        country = addrComp.long_name;
-    }
-  });
-  return country;
+  return -1;
 }
 
 // Load map on the page
