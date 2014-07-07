@@ -15,7 +15,6 @@ s.graph.read({
   edges: [    ]
 });
 
-
 /*
  *  This clears the old graph and recreates one with the 
  *  updated nodes[] array.
@@ -35,12 +34,12 @@ function _recreateGraph(){
  *  This is called whenever a marker is set on the map
  *  and adds a node on the graph
  */
-function _addNode(name, size, marker, x, y){
+function _addNode(country, marker, x, y){
   // Create node with good coordinates
   var node = {
     id: 'n'+(++numOfNodes),
-    label: name,
-    size: size,
+    label: country.name,
+    size: country.population,
     x: x+180,
     y: ((-1)*y)+90
   };
@@ -84,13 +83,30 @@ function _moveNode(updatedCountry, marker, x ,y){
       // Change node coordinates with new ones
       node.x = x;
       node.y = y;
-      node.label = updatedCountry;
+      node.label = updatedCountry.name;
+      node.size  = updatedCountry.population;
       // Refresh graph to view changes
       s.refresh();
     }
   });
 }
 
+function _moveNodeWithoutUpdating(marker, x ,y){
+  s.graph.nodes().forEach(function(node){
+    if(node.marker == marker){
+      // Build coordinates
+      var x = marker.position.lng();
+      var y = marker.position.lat();
+      x += 180;
+      y = ((-1)*y)+90; 
+      // Change node coordinates with new ones
+      node.x = x;
+      node.y = y;
+      // Refresh graph to view changes
+      s.refresh();
+    }
+  });
+}
 
 // s.graph.addEdge({
 //   id: 'e3',
