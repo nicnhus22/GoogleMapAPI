@@ -29,7 +29,8 @@ function addPoint(event) {
     "draggable":true
   });
 
-  _addNode("HardCoded", marker, marker.position.lng(), marker.position.lat());
+ _getClosestCountry(marker);
+
 }
 
 /*
@@ -38,7 +39,7 @@ function addPoint(event) {
  *  Also add the event listeners for the created marker
  */
 function _createMarker(map, options){
-
+  
   var marker = new google.maps.Marker({
         position: options.location,
         map: map,
@@ -53,13 +54,46 @@ function _createMarker(map, options){
       markers.splice(i, 1);
       _removeNode(marker);
   });
-  
+
   google.maps.event.addListener(marker,'drag',function(event) {
       _moveNode(marker, event.latLng.lng(), event.latLng.lat());
   });
 
-  return marker;
+  google.maps.event.addListener(marker,'dragend',function(event) {
+      var updatedCountry;
 
+      updatedCountry = _getClosestCountry(marker);
+
+      _moveNode(updatedCountry, marker, event.latLng.lng(), event.latLng.lat());
+  });
+
+  return marker;
+}
+
+function _getClosestCountry(marker){
+  $.ajax({
+      url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+marker.position.lat()+","+marker.position.lng()+"",  
+      dataType: 'json',
+      success: function(data, textStatus, request) {
+        var country = _fetchCountry(data);
+
+        if(country){
+          _addNode(country, marker, marker.position.lng(), marker.position.lat());
+        }
+        
+      }
+  });
+}
+
+
+function _fetchCountry(data){
+  var country;
+  data.results[0].address_components.forEach(function(addrComp){
+    if(addrComp.types[0] == 'country'){
+        country = addrComp.long_name;
+    }
+  });
+  return country;
 }
 
 // Load map on the page

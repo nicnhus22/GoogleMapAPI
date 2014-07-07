@@ -72,7 +72,7 @@ function _removeNode(marker){
   });
 }
 
-function _moveNode(marker, x ,y){
+function _moveNode(updatedCountry, marker, x ,y){
   s.graph.nodes().forEach(function(node){
     if(node.marker == marker){
       // Build coordinates
@@ -83,6 +83,7 @@ function _moveNode(marker, x ,y){
       // Change node coordinates with new ones
       node.x = x;
       node.y = y;
+      node.label = updatedCountry;
       // Refresh graph to view changes
       s.refresh();
     }
