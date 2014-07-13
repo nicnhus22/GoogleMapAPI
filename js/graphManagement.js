@@ -26,7 +26,7 @@ s.graph.read({
 function _recreateGraph(){
   // Clear old graph
   s.graph.clear();
-  
+
   // Build new graph with updates nodes[]
   nodes.forEach(function(node){
     s.graph.addNode(node);
@@ -34,7 +34,8 @@ function _recreateGraph(){
 
   // Build new graph with updated edges
   edges.forEach(function(edge){
-    s.graph.addEdge(edge);
+    if(edge.source && edge.target)
+      s.graph.addEdge(edge);
   });
 
   // Refresh graph to view changes

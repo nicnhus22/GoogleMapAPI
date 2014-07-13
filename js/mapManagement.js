@@ -32,8 +32,6 @@ function addPoint(event) {
   _getClosestCountry(marker, function(country){
       if(country.name){
         _getCountryPopulation(country.name, function(population){
-          console.log("Population of "+country.name+" is "+population);
-          console.log("Node size is then: "+Math.floor(population/100000));
           if(population > -1){
             country.population = Math.floor(population/100000);
             _addNode(country, marker, marker.position.lng(), marker.position.lat());
@@ -78,8 +76,15 @@ function _createMarker(map, options){
       _getClosestCountry(marker, function(country){
         if(country.name){
           // Will change
-          country.population = 1;
-          _moveNode(country, marker, event.latLng.lng(), event.latLng.lat());
+          _getCountryPopulation(country.name, function(population){
+            if(population > -1){
+              country.population = Math.floor(population/100000);
+              _moveNode(country, marker, marker.position.lng(), marker.position.lat());
+            }else{
+              country.population = 1;
+              _moveNode(country, marker, marker.position.lng(), marker.position.lat());
+            }
+          });
         }else{
           _moveNode({"name":"Unknown","population":"1"}, marker, event.latLng.lng(), event.latLng.lat());
         }
