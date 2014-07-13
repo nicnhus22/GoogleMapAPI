@@ -1,6 +1,9 @@
+// Keep track of nodes and edges on the graph
 var numOfNodes = 0;
 var numOfEdges = 0;
+
 var nodes = [];
+var edges = [];
 
 // Create sigma container
 s = new sigma({
@@ -23,22 +26,33 @@ s.graph.read({
 function _recreateGraph(){
   // Clear old graph
   s.graph.clear();
+  
   // Build new graph with updates nodes[]
   nodes.forEach(function(node){
     s.graph.addNode(node);
   });
+
+  // Build new graph with updated edges
+  edges.forEach(function(edge){
+    s.graph.addEdge(edge);
+  });
+
   // Refresh graph to view changes
   s.refresh();
 }
 
 function _addEdge(source, target){
 
-  s.graph.addEdge({
+  var edge = {
     id: 'e'+(++numOfEdges),
-    source: source,
-    target: target
-  });
+    source: source.id,
+    target: target.id
+  };
 
+  s.graph.addEdge(edge);
+
+  // Add edge to the list
+  edges.push(edge)
 
   // Refresh graph to view changes
   s.refresh();
@@ -66,6 +80,11 @@ function _addNode(country, marker, x, y){
 
   // Add node to the array
   nodes.push(node);
+
+  // Add edge between last created node and new one
+  if(nodes.length > 1){
+    _addEdge(nodes[numOfNodes-2], nodes[numOfNodes-1]);
+  }
 
   // Refresh graph to view changes
   s.refresh();
