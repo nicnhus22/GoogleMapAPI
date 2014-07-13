@@ -1,4 +1,5 @@
 var numOfNodes = 0;
+var numOfEdges = 0;
 var nodes = [];
 
 // Create sigma container
@@ -26,6 +27,19 @@ function _recreateGraph(){
   nodes.forEach(function(node){
     s.graph.addNode(node);
   });
+  // Refresh graph to view changes
+  s.refresh();
+}
+
+function _addEdge(source, target){
+
+  s.graph.addEdge({
+    id: 'e'+(++numOfEdges),
+    source: source,
+    target: target
+  });
+
+
   // Refresh graph to view changes
   s.refresh();
 }
@@ -107,12 +121,6 @@ function _moveNodeWithoutUpdating(marker, x ,y){
     }
   });
 }
-
-// s.graph.addEdge({
-//   id: 'e3',
-//   source: 'n3',
-//   target: 'n0'
-// });
 
 // Refresh map on start
 s.refresh();
