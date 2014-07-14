@@ -13,6 +13,23 @@ s = new sigma({
   }
 });
 
+s.drawingProperties({
+  defaultEdgeType: 'curve'
+})
+
+// Bind the events:
+s.bind('overNode', function(e) {
+
+  console.log(e.data.node);
+
+}).bind('outNode',function(e){
+  console.log(e.type, e.data.node.label);
+}).bind('clickNode',function(e){
+  console.log(e.type, e.data.node.label);
+}).bind('doubleClickNode',function(e){
+  console.log(e.type, e.data.node.label);
+});
+
 // Initialize empty graph
 s.graph.read({
   nodes: [    ],
@@ -47,9 +64,9 @@ function _addEdge(source, target){
   var edge = {
     id: 'e'+(++numOfEdges),
     source: source.id,
-    target: target.id
+    target: target.id,
+    type: ['curve', 'arrow', 'curvedArrow'][Math.random() * 3 | 0]
   };
-
   s.graph.addEdge(edge);
 
   // Add edge to the list
