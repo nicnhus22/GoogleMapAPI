@@ -13,15 +13,11 @@ s = new sigma({
   }
 });
 
-s.drawingProperties({
-  defaultEdgeType: 'curve'
-})
+
 
 // Bind the events:
 s.bind('overNode', function(e) {
-
   console.log(e.data.node);
-
 }).bind('outNode',function(e){
   console.log(e.type, e.data.node.label);
 }).bind('clickNode',function(e){
@@ -85,9 +81,11 @@ function _addNode(country, marker, x, y){
   var node = {
     id: 'n'+(++numOfNodes),
     label: country.name,
+    labelColor: "#fff",
     size: country.population,
     x: x+180,
-    y: ((-1)*y)+90
+    y: ((-1)*y)+90,
+    color: "#fff"
   };
 
   // Link the marker to the node
